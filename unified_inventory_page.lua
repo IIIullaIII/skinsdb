@@ -1,13 +1,10 @@
 local S = minetest.get_translator("skinsdb")
 
 unified_inventory.register_page("skins", {
-	get_formspec = function(player, perplayer_formspec)
+	get_formspec = function(player)
 		local skin = skins.get_player_skin(player)
-		local boffs = (type(perplayer_formspec) == "table") and 2 or 0.75
-
-		local formspec = perplayer_formspec.standard_inv_bg..
-			skins.get_skin_info_formspec(skin, perplayer_formspec)..
-			"button["..boffs..",3;6.5,.5;skins_page;"..S("Change").."]"
+		local formspec = "background[0.4,1.3;9.92,9.52;ui_misc_form.png]"..skins.get_skin_info_formspec(skin)..
+				"button[.75,3;6.5,.5;skins_page;"..S("Change").."]"
 		return {formspec=formspec}
 	end,
 })
@@ -18,16 +15,16 @@ unified_inventory.register_button("skins", {
 	tooltip = S("Skins"),
 })
 
-local function get_formspec(player, perplayer_formspec)
+local function get_formspec(player)
 	local context = skins.get_formspec_context(player)
-	local formspec = perplayer_formspec.standard_inv_bg..
-			skins.get_skin_selection_formspec(player, context, perplayer_formspec)
+	local formspec = "background[0.4,1.3;9.92,9.52;ui_misc_form.png]"..
+			skins.get_skin_selection_formspec(player, context, 0.4)
 	return formspec
 end
 
 unified_inventory.register_page("skins_page", {
-	get_formspec = function(player, perplayer_formspec)
-		return {formspec=get_formspec(player, perplayer_formspec)}
+	get_formspec = function(player)
+		return {formspec=get_formspec(player)}
 	end
 })
 
